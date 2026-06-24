@@ -55,7 +55,9 @@
   .sec-title .sub{font-style:italic;color:var(--red);margin-top:6px}
   .plates{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
   .plate{border:2px solid var(--navy);background:var(--cream-deep);padding:24px 22px;position:relative}
-  .plate::before{content:"\2693";position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--cream);padding:0 8px;color:var(--gold);font-size:1.1rem}
+  .plate::before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--cream);padding:0 9px;width:42px;height:24px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9923f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='4' r='1.6'/><path d='M12 6v14'/><path d='M7 10h10'/><path d='M5 14a7 7 0 0 0 14 0'/><path d='M5 14l-2 1m18-1l-2 1'/></svg>");
+    background-repeat:no-repeat;background-position:center;background-size:22px 22px;background-color:var(--cream)}
   .plate h3{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.22rem;margin-bottom:4px}
   .plate .price{font-family:'Oswald',sans-serif;color:var(--red);font-size:1.15rem;float:right}
   .plate p{font-size:.95rem;color:#42505f;clear:both}
@@ -142,12 +144,12 @@
     <div class="wrap">
       <div class="sec-title"><h2>From the Galley</h2><div class="sub">a few of the house favorites</div></div>
       <div class="plates">
-        <div class="plate"><h3>Lobster Tail <span class="price">46</span></h3><p>A grilled lobster tail with drawn butter. Choice of two sides.</p></div>
-        <div class="plate"><h3>Jumbo Lump Crab Cake <span class="price">38</span></h3><p>Two jumbo lump crab cakes, grilled to order. Choice of two sides.</p></div>
-        <div class="plate"><h3>The Captain's Platter <span class="price">42</span></h3><p>A grand assortment of shrimp, flounder, scallops, and our crab cake.</p></div>
-        <div class="plate"><h3>New England Lobster Salad <span class="price">21</span></h3><p>Our lobster salad over crisp romaine, finished with fresh scallions.</p></div>
-        <div class="plate"><h3>Butterfly Shrimp <span class="hot">HOT</span> <span class="price">18</span></h3><p>Crispy butterfly shrimp wrap with lettuce, tomato, onion, and tartar. With fries.</p></div>
-        <div class="plate"><h3>Lobster Roll &mdash; Connecticut <span class="price">26</span></h3><p>Warm lobster on a toasted split-top bun with drawn butter.</p></div>
+        <div class="plate"><h3>Lobster Tail <span class="price">$46</span></h3><p>A grilled lobster tail with drawn butter. Choice of two sides.</p></div>
+        <div class="plate"><h3>Jumbo Lump Crab Cake <span class="price">$38</span></h3><p>Two jumbo lump crab cakes, grilled to order. Choice of two sides.</p></div>
+        <div class="plate"><h3>The Captain's Platter <span class="price">$42</span></h3><p>A grand assortment of shrimp, flounder, scallops, and our crab cake.</p></div>
+        <div class="plate"><h3>New England Lobster Salad <span class="price">$21</span></h3><p>Our lobster salad over crisp romaine, finished with fresh scallions.</p></div>
+        <div class="plate"><h3>Butterfly Shrimp <span class="hot">HOT</span> <span class="price">$18</span></h3><p>Crispy butterfly shrimp wrap with lettuce, tomato, onion, and tartar. With fries.</p></div>
+        <div class="plate"><h3>Lobster Roll &mdash; Connecticut <span class="price">$26</span></h3><p>Warm lobster on a toasted split-top bun with drawn butter.</p></div>
       </div>
       <p class="menu-note">Soups, fried platters, steamed dinners, cheese-wheel pastas, feasts for the table &amp; more &mdash; <a href="https://bobsgrill.toast.site/order">see the full menu &amp; order online &rarr;</a></p>
     </div>
@@ -157,9 +159,19 @@
     <div class="wrap">
       <div class="sec-title"><h2>Visit Us</h2><div class="sub">on the Ocean City boardwalk</div></div>
       <div class="visit-grid">
-        <div class="vcard"><div class="ico">&#128368;</div><h3>Hours</h3><p>Open Daily<br>7:30am &ndash; 8:00pm</p></div>
-        <div class="vcard"><div class="ico">&#9693;</div><h3>Find Us</h3><p>Ocean City, New Jersey<br><span style="font-size:.95rem;color:#bcccdd">[ Add street address ]</span></p></div>
-        <div class="vcard"><div class="ico">&#9742;</div><h3>Call</h3><p><a href="tel:+16093993438">(609) 399-3438</a></p></div>
+        <div class="vcard">
+          <div class="ico"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Hours</h3><p>Open Daily<br>7:30am &ndash; 8:00pm</p>
+        </div>
+        <div class="vcard">
+          <div class="ico"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 0 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <h3>Find Us</h3>
+          <p><a href="https://www.google.com/maps/search/?api=1&query=1368+Boardwalk+Ocean+City+NJ" target="_blank" rel="noopener">1368 Boardwalk<br>Ocean City, NJ 08226</a></p>
+        </div>
+        <div class="vcard">
+          <div class="ico"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l1.5 4.5L7.5 10a11 11 0 0 0 5 5l1.5-2 4.5 1.5V18a2 2 0 0 1-2 2A14 14 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></div>
+          <h3>Call</h3><p><a href="tel:+16093993438">(609) 399-3438</a></p>
+        </div>
       </div>
     </div>
   </section>
