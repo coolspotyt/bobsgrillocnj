@@ -106,6 +106,19 @@
 
   a:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}.hero video{display:none}}
+
+  /* ---- MOBILE: reverse the reveal ----
+     Phone video is letterboxed badly + its baked-in text gets cropped,
+     so on phones we hide the video (opacity 0, still playing) and show the
+     HTML text first. At 9.5s the video fades in. */
+  @media (max-width:720px){
+    .hero video{opacity:0;transition:opacity 1.2s ease}
+    .hero.video-on video{opacity:1}
+    /* text + overlay visible immediately on phone */
+    .hero-content{opacity:1;pointer-events:auto}
+    .hero .overlay{opacity:1}
+    /* when video comes on, deepen overlay slightly handled by .revealed too */
+  }
   @media (max-width:720px){
     .nav{padding:16px 20px}
     .nav-links{position:absolute;top:100%;right:20px;flex-direction:column;gap:18px;background:var(--navy);padding:20px 26px;border:2px solid var(--gold);display:none}
@@ -239,21 +252,33 @@
 
     (function(){
       var v = document.getElementById('heroVideo');
+      var hero = document.querySelector('.hero');
       var content = document.getElementById('heroContent');
       var overlay = document.getElementById('heroOverlay');
       var REVEAL_AT = 9.5; // seconds — when your video's intro text clears
-      if(!v) { if(content){content.classList.add('revealed');} if(overlay){overlay.classList.add('revealed');} return; }
+      var isMobile = window.matchMedia('(max-width:720px)').matches;
+
+      if(!v){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); return; }
       v.muted = true;
 
-      function reveal(){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); }
-      function hide(){ content && content.classList.remove('revealed'); overlay && overlay.classList.remove('revealed'); }
+      // DESKTOP: text hidden until 9.5s, then fades in over the video.
+      // MOBILE: text shown from 0; video hidden until 9.5s, then fades in.
+      function showText(){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); }
+      function hideText(){ content && content.classList.remove('revealed'); overlay && overlay.classList.remove('revealed'); }
+      function showVideo(){ hero && hero.classList.add('video-on'); }
+      function hideVideo(){ hero && hero.classList.remove('video-on'); }
 
       v.addEventListener('timeupdate', function(){
-        if(v.currentTime >= REVEAL_AT) reveal();
+        if(v.currentTime >= REVEAL_AT){
+          if(isMobile){ showVideo(); }      // phone: reveal the video
+          else { showText(); }              // desktop: reveal the text
+        }
       });
-      // each loop restarts the video at 0 -> hide text again so the intro shows clean
-      v.addEventListener('seeked', function(){ if(v.currentTime < 0.5) hide(); });
-      v.addEventListener('ended', hide);
+      // on each loop back to start, reset to the "intro" state
+      v.addEventListener('seeked', function(){
+        if(v.currentTime < 0.5){ if(isMobile){ hideVideo(); } else { hideText(); } }
+      });
+      v.addEventListener('ended', function(){ if(isMobile){ hideVideo(); } else { hideText(); } });
 
       var tryPlay = function(){
         var p = v.play();
@@ -261,15 +286,14 @@
       };
       v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
       v.addEventListener('error', function(){
-        var e = v.error;
-        console.error('Hero video FAILED. code=', e && e.code, '(4=codec/src unsupported)');
-        reveal(); // if video can't play, show text anyway so hero isn't empty
+        console.error('Hero video FAILED. code=', v.error && v.error.code, '(4=codec/src unsupported)');
+        showText(); // never leave hero blank
       });
       tryPlay();
       document.addEventListener('touchstart', tryPlay, {once:true});
       document.addEventListener('click', tryPlay, {once:true});
-      // safety: if video never loads at all, reveal text after 11s so hero is never blank
-      setTimeout(function(){ if(v.readyState < 2) reveal(); }, 11000);
+      // safety: if video never loads, on desktop reveal text so hero isn't blank
+      setTimeout(function(){ if(v.readyState < 2 && !isMobile) showText(); }, 11000);
     })();
   </script>
 
