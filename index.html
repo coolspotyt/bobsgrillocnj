@@ -34,8 +34,8 @@
 
   /* ---- full-screen video hero ---- */
   .hero{position:relative;height:100vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-  .hero video,.hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-  .hero .hero-fallback{background:linear-gradient(160deg,#24405f 0%,#16273f 60%,#0e1c2e 100%)}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+  .hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:linear-gradient(160deg,#24405f 0%,#16273f 60%,#0e1c2e 100%)}
   .hero .overlay{position:absolute;inset:0;z-index:1;
     background:linear-gradient(180deg,rgba(15,28,46,.55) 0%,rgba(15,28,46,.30) 40%,rgba(15,28,46,.65) 100%)}
   .hero-content{position:relative;z-index:2;color:var(--cream);padding:0 22px}
@@ -125,11 +125,11 @@
   </nav>
 
   <header class="hero">
-    <!-- Hero video hosted on Vercel Blob. Add a poster frame URL when you have one. -->
-    <video autoplay muted loop playsinline poster="hero-poster.jpg">
+    <!-- Navy fallback sits BEHIND the video (z-index 0). Video sits above it (z-index 1). -->
+    <div class="hero-fallback" aria-hidden="true"></div>
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg">
       <source src="https://2mlr6moqyuvlfqrp.public.blob.vercel-storage.com/Commercial.mp4" type="video/mp4">
     </video>
-    <div class="hero-fallback" aria-hidden="true"></div>
     <div class="overlay"></div>
     <div class="hero-content">
       <div class="eyebrow">A Boardwalk Institution</div>
@@ -231,10 +231,27 @@
 
   <script>
     document.querySelectorAll('.faq-q').forEach(function(b){
-      b.addEventListener('click',function(){
-        b.parentElement.classList.toggle('open');
-      });
+      b.addEventListener('click',function(){ b.parentElement.classList.toggle('open'); });
     });
+
+    (function(){
+      var v = document.getElementById('heroVideo');
+      if(!v) return;
+      v.muted = true;                 // required for autoplay
+      var tryPlay = function(){
+        var p = v.play();
+        if(p && p.catch){ p.catch(function(err){ console.warn('Hero video play() blocked:', err); }); }
+      };
+      v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
+      v.addEventListener('error', function(){
+        var e = v.error;
+        console.error('Hero video FAILED to load. code=', e && e.code, '(1=aborted 2=network 3=decode 4=src not supported/codec)');
+      });
+      tryPlay();
+      // last resort: if browser blocks autoplay, start on first tap anywhere
+      document.addEventListener('touchstart', tryPlay, {once:true});
+      document.addEventListener('click', tryPlay, {once:true});
+    })();
   </script>
 
 </body>
