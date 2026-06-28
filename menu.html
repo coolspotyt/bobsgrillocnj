@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Bob's Seafood & Grill · Ocean City, NJ · Since 1928</title>
+<meta name="description" content="The full menu at Bob's Seafood & Grill, Ocean City NJ — lobster, crab cakes, fried platters, steamed dinners, cheese-wheel pastas, feasts for the table, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;0,900;1,600&family=Spectral:ital,wght@0,400;0,500;1,400&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1f3a5f;--navy-ink:#16273f;--cream:#f3ead7;--cream-deep:#e9dcc0;--red:#b23a2e;--red-deep:#8f2c23;--gold:#b9923f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--navy-ink);font-family:'Spectral',Georgia,serif;line-height:1.5}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* nav */
+  .nav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:16px 34px;position:sticky;top:0;z-index:30}
+  .nav .logo{font-family:'Playfair Display',serif;font-weight:900;color:var(--cream);font-size:1.3rem;line-height:.95;text-transform:uppercase;letter-spacing:.02em}
+  .nav .logo .sf{display:block;color:#fff;font-size:.6em;letter-spacing:.08em}
+  .nav .logo a{color:inherit;text-decoration:none}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.86rem;color:var(--cream);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--gold)}
+  .nav-links .order{color:var(--gold)}
+  .nav-toggle{display:none;background:none;border:0;color:var(--cream);font-size:1.5rem;cursor:pointer}
+
+  /* header */
+  .menu-head{text-align:center;padding:48px 0 10px;border-bottom:3px double var(--navy);margin-bottom:14px}
+  .menu-head .eyebrow{font-family:'Oswald',sans-serif;letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;color:var(--red);margin-bottom:12px}
+  .menu-head h1{font-family:'Playfair Display',serif;font-weight:900;color:var(--navy);font-size:clamp(2.4rem,6vw,3.6rem);text-transform:uppercase;line-height:.95}
+  .menu-head h1 .sf{display:block;color:var(--red);font-size:.5em;letter-spacing:.05em;margin-top:4px}
+  .menu-head .since{font-style:italic;color:var(--navy-ink);margin-top:12px}
+  .menu-head .stars{color:var(--gold);margin-top:6px}
+
+  /* sticky section jump bar */
+  .jump{position:sticky;top:60px;z-index:20;background:var(--cream);border-bottom:2px solid var(--navy);
+    display:flex;gap:18px;justify-content:center;flex-wrap:wrap;padding:12px 16px;margin-bottom:30px}
+  .jump a{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;color:var(--navy);text-decoration:none;padding:3px 2px;border-bottom:2px solid transparent}
+  .jump a:hover{color:var(--red);border-color:var(--red)}
+
+  /* section */
+  .section{padding:26px 0 10px}
+  .section-title{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:6px}
+  .section-title::before,.section-title::after{content:"";height:2px;background:var(--navy);flex:1;max-width:90px}
+  .section-title h2{font-family:'Playfair Display',serif;font-weight:800;color:var(--navy);font-size:clamp(1.5rem,3.4vw,2.1rem);text-transform:uppercase;letter-spacing:.02em;text-align:center}
+  .section-note{text-align:center;color:var(--red);font-style:italic;font-size:.92rem;margin-bottom:22px}
+  .section-sub{text-align:center;color:#5a6775;font-size:.86rem;margin:-2px 0 20px}
+
+  /* item grid */
+  .items{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:6px 40px;max-width:920px;margin:0 auto}
+  .item{padding:9px 0;border-bottom:1px dotted #c9b88f}
+  .item .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .item .name{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.04rem}
+  .item .name .tag{display:inline-block;background:var(--red);color:var(--cream);font-family:'Oswald',sans-serif;font-size:.5rem;letter-spacing:.06em;padding:2px 5px;border-radius:3px;margin-left:6px;vertical-align:middle}
+  .item .name .tag.cold{background:var(--navy)}
+  .item .price{font-family:'Oswald',sans-serif;color:var(--red);font-size:1rem;white-space:nowrap}
+  .item .desc{font-size:.86rem;color:#52606d;margin-top:2px;max-width:42ch}
+  .flavors{max-width:920px;margin:0 auto 8px;text-align:center;font-style:italic;color:#52606d;font-size:.9rem}
+  .flavors b{color:var(--red);font-style:normal;font-family:'Oswald',sans-serif}
+
+  .band{background:var(--navy);color:var(--cream);text-align:center;padding:40px 0;margin-top:40px}
+  .band h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(1.6rem,4vw,2.4rem);text-transform:uppercase}
+  .band p{margin:12px auto 22px;max-width:480px;color:#d8e2ee}
+  .btn{display:inline-block;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.95rem;padding:15px 40px;text-decoration:none;border-radius:40px;background:var(--red);color:var(--cream);border:2px solid var(--red);transition:transform .12s,background .2s}
+  .btn:hover{transform:translateY(-2px);background:var(--cream);color:var(--red-deep);border-color:var(--cream)}
+
+  footer{background:var(--navy-ink);color:var(--cream);text-align:center;padding:34px 0 28px;font-size:.88rem}
+  footer .star{color:var(--gold);margin:10px 0}
+  footer a{color:var(--gold);text-decoration:none}
+  footer .fine{color:#9fb0c4;font-size:.74rem;max-width:560px;margin:12px auto 0}
+
+  a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  @media (max-width:720px){
+    .nav{padding:14px 18px}
+    .nav-links{position:absolute;top:100%;right:18px;flex-direction:column;gap:16px;background:var(--navy);padding:18px 24px;border:2px solid var(--gold);display:none}
+    .nav-links.open{display:flex}
+    .nav-toggle{display:block}
+    .jump{top:56px}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="logo"><a href="index.html">Bob's<span class="sf">Seafood &amp; Grill</span></a></div>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">&#9776;</button>
+    <div class="nav-links" id="navlinks">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="https://bobsgrill.toast.site/order" class="order">Order Now</a>
+      <a href="index.html#catering">Catering</a>
+    </div>
+  </nav>
+
+  <div class="menu-head">
+    <div class="wrap">
+      <div class="eyebrow">Our Full Menu</div>
+      <h1>Bob's<span class="sf">Seafood &amp; Grill</span></h1>
+      <div class="since">&mdash; Ocean City, NJ &middot; Since 1928 &mdash;</div>
+      <div class="stars">&#9733; &#9733; &#9733;</div>
+    </div>
+  </div>
+
+  <div class="jump">
+    <a href="#starters">Starters</a>
+    <a href="#salads">Salads</a>
+    <a href="#shrimp-cocktail">Shrimp Cocktail</a>
+    <a href="#crab-cakes">Crab Cakes</a>
+    <a href="#rolls">Lobster &amp; Crab Rolls</a>
+    <a href="#wraps">Wraps &amp; Sandwiches</a>
+    <a href="#dinners">Signature Dinners</a>
+    <a href="#fried">Fried Platters</a>
+    <a href="#steamed">Steamed Dinners</a>
+    <a href="#pasta">Pasta &amp; Cheese Wheel</a>
+    <a href="#burgers">Burgers &amp; Steaks</a>
+    <a href="#feasts">Feasts</a>
+    <a href="#kids">Kids &amp; Sides</a>
+    <a href="#dessert">Dessert</a>
+  </div>
+
+  <div class="wrap">
+
+    <!-- STARTERS -->
+    <section class="section" id="starters">
+      <div class="section-title"><h2>Appetizers</h2></div>
+      <div class="section-note">to start things off</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">New England Clam Chowder</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Lobster Bisque</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Chicken Wings</span><span class="price">$15</span></div></div>
+        <div class="item"><div class="row"><span class="name">Fried Calamari</span><span class="price">$17</span></div></div>
+        <div class="item"><div class="row"><span class="name">Bang Bang Shrimp</span><span class="price">$16</span></div></div>
+        <div class="item"><div class="row"><span class="name">Coconut Shrimp</span><span class="price">$18</span></div></div>
+        <div class="item"><div class="row"><span class="name">Cajun Shrimp</span><span class="price">$18</span></div></div>
+        <div class="item"><div class="row"><span class="name">Crab Egg Rolls</span><span class="price">$17</span></div></div>
+        <div class="item"><div class="row"><span class="name">Steamed Mussels</span><span class="price">$27</span></div></div>
+        <div class="item"><div class="row"><span class="name">Steamed Clams</span><span class="price">$32</span></div></div>
+        <div class="item"><div class="row"><span class="name">Mozzarella Sticks</span><span class="price">$14</span></div></div>
+        <div class="item"><div class="row"><span class="name">Fried Mushrooms</span><span class="price">$14</span></div></div>
+        <div class="item"><div class="row"><span class="name">Onion Rings</span><span class="price">$11</span></div></div>
+        <div class="item"><div class="row"><span class="name">Crab Fries</span><span class="price">$19</span></div></div>
+        <div class="item"><div class="row"><span class="name">Cajun Fries</span><span class="price">$11</span></div></div>
+      </div>
+    </section>
+
+    <!-- SALADS -->
+    <section class="section" id="salads">
+      <div class="section-title"><h2>Salads</h2></div>
+      <div class="section-sub">Dressings: Italian, Bleu Cheese, Ranch, Greek Vinaigrette, Oil &amp; Vinegar, Caesar, Honey Mustard, Asian Sesame</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">New England Lobster Salad</span><span class="price">$21</span></div><div class="desc">Our delightful lobster salad over crisp romaine, finished with fresh scallions.</div></div>
+        <div class="item"><div class="row"><span class="name">Fresh Tuna Salad Platter</span><span class="price">$16</span></div><div class="desc">Tuna salad garnished with a hard-boiled egg.</div></div>
+        <div class="item"><div class="row"><span class="name">Chicken Caesar Salad</span><span class="price">$17</span></div><div class="desc">Marinated grilled chicken over romaine with shaved parmesan and classic Caesar.</div></div>
+        <div class="item"><div class="row"><span class="name">Cobb Salad</span><span class="price">$17</span></div><div class="desc">Mixed greens layered with chicken, bacon, egg, and crumbled bleu cheese.</div></div>
+      </div>
+    </section>
+
+    <!-- SHRIMP COCKTAIL -->
+    <section class="section" id="shrimp-cocktail">
+      <div class="section-title"><h2>Shrimp Cocktail</h2></div>
+      <div class="section-sub">Peeled &amp; deveined &middot; cocktail sauce + lemon</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Half Pound</span><span class="price">$16</span></div></div>
+        <div class="item"><div class="row"><span class="name">One Pound</span><span class="price">$29</span></div></div>
+        <div class="item"><div class="row"><span class="name">Pound and a Half</span><span class="price">$42</span></div></div>
+      </div>
+    </section>
+
+    <!-- CRAB CAKES -->
+    <section class="section" id="crab-cakes">
+      <div class="section-title"><h2>Crab Cakes</h2></div>
+      <div class="flavors">2 crab cakes in the order, comes with 2 sides &middot; <b>All Flavors $38</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Classic Maryland Crab Cake</span></div><div class="desc">Old Bay, dijon, lemon and parsley.</div></div>
+        <div class="item"><div class="row"><span class="name">Cajun Butter Crab Cake</span></div><div class="desc">Cajun seasoning, garlic butter and paprika.</div></div>
+        <div class="item"><div class="row"><span class="name">Garlic Parmesan Crab Cake</span></div><div class="desc">Roasted garlic, parmesan and buttered crumbs.</div></div>
+        <div class="item"><div class="row"><span class="name">Lemon Herb Crab Cake</span></div><div class="desc">Lemon zest, dill, parsley and white pepper.</div></div>
+        <div class="item"><div class="row"><span class="name">Jalapeno Cheddar Crab Cake</span></div><div class="desc">Jalapeno, cheddar and green onion.</div></div>
+        <div class="item"><div class="row"><span class="name">Truffle Crab Cake</span></div><div class="desc">Truffle aioli, parmesan and chopped arugula.</div></div>
+      </div>
+    </section>
+
+    <!-- ROLLS -->
+    <section class="section" id="rolls">
+      <div class="section-title"><h2>Lobster Rolls</h2></div>
+      <div class="flavors">Split top &middot; Add fries for $3 &middot; Cold or warm &middot; <b>All Flavors $26</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Traditional</span></div><div class="desc">Fresh lobster meat mixed with mayonnaise dressing and lettuce.</div></div>
+        <div class="item"><div class="row"><span class="name">Connecticut</span></div><div class="desc">Warm lobster on a toasted bun with drawn butter.</div></div>
+        <div class="item"><div class="row"><span class="name">Italian</span></div><div class="desc">Lobster with fresh mozzarella, lettuce, basil pesto.</div></div>
+        <div class="item"><div class="row"><span class="name">Cali</span></div><div class="desc">Lobster with lettuce, cucumber, avocado and mayo.</div></div>
+      </div>
+      <div class="section-title" style="margin-top:30px"><h2>Crab Rolls</h2></div>
+      <div class="flavors">Split top &middot; Add fries for $3 &middot; All cold &middot; <b>All Flavors $24</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Traditional</span></div><div class="desc">Lump crab with mayo over lettuce.</div></div>
+        <div class="item"><div class="row"><span class="name">Lemon Pepper</span></div><div class="desc">Lump crab seasoned with lemon pepper.</div></div>
+        <div class="item"><div class="row"><span class="name">Cajun</span></div><div class="desc">Lump crab with Cajun seasoning.</div></div>
+        <div class="item"><div class="row"><span class="name">New York</span></div><div class="desc">Lump crab in a garlic buffalo toss.</div></div>
+        <div class="item"><div class="row"><span class="name">Sriracha Honey</span></div><div class="desc">Lump crab in a sweet and spicy sriracha honey sauce.</div></div>
+      </div>
+    </section>
+
+    <!-- WRAPS & SANDWICHES -->
+    <section class="section" id="wraps">
+      <div class="section-title"><h2>Wraps &amp; Sandwiches</h2></div>
+      <div class="section-sub">Comes with fries &middot; Add onion rings for +$3</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Butterfly Shrimp <span class="tag">HOT</span></span><span class="price">$18</span></div><div class="desc">Crispy butterfly shrimp with lettuce, tomato, onion and tartar.</div></div>
+        <div class="item"><div class="row"><span class="name">Fried Oyster <span class="tag">HOT</span></span><span class="price">$19</span></div><div class="desc">Fried oysters with lettuce, tomato, onion and remoulade.</div></div>
+        <div class="item"><div class="row"><span class="name">Flounder <span class="tag">HOT</span></span><span class="price">$18</span></div><div class="desc">Flounder fried or grilled, with tartar sauce.</div></div>
+        <div class="item"><div class="row"><span class="name">Crab Cake <span class="tag">HOT</span></span><span class="price">$22</span></div><div class="desc">Our jumbo lump crab cake with remoulade.</div></div>
+        <div class="item"><div class="row"><span class="name">Chicken <span class="tag">HOT</span></span><span class="price">$16</span></div><div class="desc">Chicken grilled or fried, with lettuce, tomato and onions.</div></div>
+        <div class="item"><div class="row"><span class="name">Turkey Club <span class="tag cold">COLD</span></span><span class="price">$16</span></div><div class="desc">Turkey, lettuce, tomato and mayo.</div></div>
+        <div class="item"><div class="row"><span class="name">BLT <span class="tag cold">COLD</span></span><span class="price">$16</span></div><div class="desc">Crisp bacon, lettuce and tomato with mayo.</div></div>
+        <div class="item"><div class="row"><span class="name">Chicken Caesar <span class="tag cold">COLD</span></span><span class="price">$16</span></div><div class="desc">Romaine, chicken, parmesan, and Caesar (wrap only!).</div></div>
+      </div>
+    </section>
+
+    <!-- SIGNATURE DINNERS -->
+    <section class="section" id="dinners">
+      <div class="section-title"><h2>Signature Dinners</h2></div>
+      <div class="section-sub">Choice of two sides</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Lobster Tail</span><span class="price">$46</span></div><div class="desc">A grilled lobster tail with drawn butter.</div></div>
+        <div class="item"><div class="row"><span class="name">The Captain's Platter</span><span class="price">$42</span></div><div class="desc">A grand assortment of shrimp, flounder, scallops, and our crab cake.</div></div>
+        <div class="item"><div class="row"><span class="name">Salmon</span><span class="price">$31</span></div><div class="desc">A grilled fillet of salmon, beautifully prepared.</div></div>
+        <div class="item"><div class="row"><span class="name">Sea Scallops</span><span class="price">$36</span></div><div class="desc">Six jumbo sea scallops, grilled and tender.</div></div>
+        <div class="item"><div class="row"><span class="name">Jumbo Lump Crab Cake</span><span class="price">$38</span></div><div class="desc">Two jumbo lump crab cakes, grilled to order.</div></div>
+      </div>
+    </section>
+
+    <!-- FRIED PLATTERS -->
+    <section class="section" id="fried">
+      <div class="section-title"><h2>Fried Platters</h2></div>
+      <div class="section-sub">Comes with two sides</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Fried Oysters</span><span class="price">$28</span></div><div class="desc">Plump oysters fried golden with remoulade.</div></div>
+        <div class="item"><div class="row"><span class="name">Fried Shrimp</span><span class="price">$26</span></div><div class="desc">Hand-breaded shrimp fried with cocktail &amp; tartar.</div></div>
+        <div class="item"><div class="row"><span class="name">Fried Flounder</span><span class="price">$25</span></div><div class="desc">Breaded flounder fillet with tartar and lemon.</div></div>
+        <div class="item"><div class="row"><span class="name">Fried Scallops</span><span class="price">$30</span></div><div class="desc">Jumbo sea scallops fried to a delicate golden crust.</div></div>
+        <div class="item"><div class="row"><span class="name">Fish &amp; Chips</span><span class="price">$24</span></div><div class="desc">Beer-battered cod with hand-cut fries, tartar and lemon.</div></div>
+        <div class="item"><div class="row"><span class="name">Fried Seafood Combo</span><span class="price">$30</span></div><div class="desc">A boardwalk platter of oysters, shrimp, flounder and scallops.</div></div>
+      </div>
+    </section>
+
+    <!-- STEAMED DINNERS -->
+    <section class="section" id="steamed">
+      <div class="section-title"><h2>Steamed Dinners</h2></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Sailor's Catch Platter</span><span class="price">$49</span></div><div class="desc">Lobster, shrimp and scallops steamed with drawn butter, potato and corn.</div></div>
+        <div class="item"><div class="row"><span class="name">Shrimp Happens</span><span class="price">$30</span></div><div class="desc">Eighteen easy-peel shrimp dusted in Old Bay with cocktail sauce, potato and corn.</div></div>
+        <div class="item"><div class="row"><span class="name">Bob's Clam Bake</span><span class="price">$49</span></div><div class="desc">A classic bake of shrimp, littlenecks and a whole lobster with potato and corn.</div></div>
+        <div class="item"><div class="row"><span class="name">Snow Crab Clusters</span><span class="price">$49</span></div><div class="desc">Two clusters of snow crab with drawn butter, potato and corn.</div></div>
+        <div class="item"><div class="row"><span class="name">Snow Crab &amp; Shrimp</span><span class="price">$41</span></div><div class="desc">A cluster of snow crab and eight shrimp with drawn butter, potato and corn.</div></div>
+        <div class="item"><div class="row"><span class="name">Lobsterpalooza</span><span class="price">$39</span></div><div class="desc">A whole steamed lobster with drawn butter, potato and corn.</div></div>
+      </div>
+    </section>
+
+    <!-- PASTA & CHEESE WHEEL -->
+    <section class="section" id="pasta">
+      <div class="section-title"><h2>Cheese Wheel Builds</h2></div>
+      <div class="section-sub">All fettuccine alfredo &middot; seafood and non-seafood wheels</div>
+      <div class="flavors"><b>Seafood Section</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Shrimp Pasta</span><span class="price">$35</span></div><div class="desc">Pasta finished in the wheel with sauteed shrimp.</div></div>
+        <div class="item"><div class="row"><span class="name">Scallop</span><span class="price">$26</span></div><div class="desc">Pasta finished in the wheel with jumbo scallops.</div></div>
+        <div class="item"><div class="row"><span class="name">Shrimp &amp; Scallops</span><span class="price">$42</span></div><div class="desc">Pasta finished in the wheel with shrimp and scallops.</div></div>
+        <div class="item"><div class="row"><span class="name">Clams</span><span class="price">$35</span></div><div class="desc">Pasta finished in the wheel with littleneck clams.</div></div>
+        <div class="item"><div class="row"><span class="name">Crab Meat</span><span class="price">$41</span></div><div class="desc">Pasta finished in the wheel with lump crab.</div></div>
+        <div class="item"><div class="row"><span class="name">Lobster Tail</span><span class="price">$48</span></div><div class="desc">Pasta finished in the wheel with lobster tails.</div></div>
+        <div class="item"><div class="row"><span class="name">Seafood Mix</span><span class="price">$48</span></div><div class="desc">Pasta with shrimp, scallops, crab and clams.</div></div>
+      </div>
+      <div class="flavors" style="margin-top:18px"><b>Non-Seafood Section</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Plain</span><span class="price">$27</span></div><div class="desc">Pasta finished in the wheel with cracked pepper.</div></div>
+        <div class="item"><div class="row"><span class="name">Mushroom &amp; Spinach</span><span class="price">$28</span></div><div class="desc">Pasta finished with the mushroom and spinach.</div></div>
+        <div class="item"><div class="row"><span class="name">Chicken</span><span class="price">$24</span></div><div class="desc">Pasta finished in the wheel with grilled chicken.</div></div>
+      </div>
+      <div class="section-title" style="margin-top:30px"><h2>Pasta</h2></div>
+      <div class="section-sub">All ravioli tossed in alfredo sauce</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Lobster Ravioli Pasta</span><span class="price">$36</span></div><div class="desc">Lobster-filled ravioli in alfredo crowned with shrimp and lump crab.</div></div>
+        <div class="item"><div class="row"><span class="name">Lobster and Crab Ravioli Pasta</span><span class="price">$34</span></div><div class="desc">Lobster and crab filled ravioli tossed in alfredo with lump crab.</div></div>
+        <div class="item"><div class="row"><span class="name">Wild Mushroom Ravioli Pasta</span><span class="price">$28</span></div><div class="desc">Wild mushroom ravioli in alfredo with parmesan.</div></div>
+        <div class="item"><div class="row"><span class="name">Cheese Ravioli Pasta</span><span class="price">$24</span></div><div class="desc">Classic cheese ravioli tossed into rich alfredo.</div></div>
+      </div>
+    </section>
+
+    <!-- BURGERS & STEAKS -->
+    <section class="section" id="burgers">
+      <div class="section-title"><h2>Burgers &amp; Cheese Steaks</h2></div>
+      <div class="section-sub">Comes with fries &middot; Add onion rings for +$3</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Hamburger</span><span class="price">$15</span></div><div class="desc">A half pound Black Angus burger, char-grilled.</div></div>
+        <div class="item"><div class="row"><span class="name">Cheeseburger</span><span class="price">$16</span></div><div class="desc">A char-grilled burger with melted cheese.</div></div>
+        <div class="item"><div class="row"><span class="name">Bacon Cheeseburger</span><span class="price">$18</span></div><div class="desc">Char-grilled burger with bacon and cheese.</div></div>
+        <div class="item"><div class="row"><span class="name">Black &amp; Blue</span><span class="price">$18</span></div><div class="desc">Blackened burger smothered in bleu cheese and bacon.</div></div>
+        <div class="item"><div class="row"><span class="name">BBQ Burger</span><span class="price">$18</span></div><div class="desc">Tangy BBQ burger with cheddar, caramelized onion and bacon.</div></div>
+        <div class="item"><div class="row"><span class="name">Cheese Steak</span><span class="price">$18</span></div><div class="desc">Beef or chicken with onions and melted cheese on a fresh Italian roll.</div></div>
+        <div class="item"><div class="row"><span class="name">Buffalo Cheese Steak</span><span class="price">$17</span></div><div class="desc">Beef or chicken in buffalo sauce with cheese.</div></div>
+        <div class="item"><div class="row"><span class="name">BLT Cheese Steak</span><span class="price">$18</span></div><div class="desc">Beef or chicken with bacon, lettuce, tomato and cheese.</div></div>
+      </div>
+    </section>
+
+    <!-- FEASTS / SOLD BY THE POUND -->
+    <section class="section" id="feasts">
+      <div class="section-title"><h2>Feasts for the Table</h2></div>
+      <div class="section-sub">Comes with two sides</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">The 98th Anniversary Feast</span><span class="price">$335</span></div><div class="desc">Our grandest table: two whole lobsters, crab legs, clams, mussels and shrimp with corn and potato tossed in garlic butter. Serves up to six.</div></div>
+        <div class="item"><div class="row"><span class="name">The Lighthouse Feast</span><span class="price">$175</span></div><div class="desc">Whole lobster, crab legs, clams, mussels, shrimp and andouille with corn and potato in garlic butter. Serves two to three.</div></div>
+      </div>
+      <div class="section-title" style="margin-top:30px"><h2>Sold by the Pound</h2></div>
+      <div class="section-sub">Snow crab sold by the pound at market price</div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Snow Crab</span><span class="price">Market</span></div></div>
+        <div class="item"><div class="row"><span class="name">Blue Crab</span><span class="price">Market</span></div></div>
+      </div>
+    </section>
+
+    <!-- KIDS & SIDES -->
+    <section class="section" id="kids">
+      <div class="section-title"><h2>Kids' Meals</h2></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Hamburger</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Chicken Nuggets</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Mac &amp; Cheese</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Pasta with Marinara</span><span class="price">$10</span></div></div>
+      </div>
+      <div class="section-title" style="margin-top:30px"><h2>Sides</h2></div>
+      <div class="section-sub">Included with certain entrees &middot; extra side $5</div>
+      <div class="flavors"><b>Regular Sides &mdash; add on $5</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">French Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Onion Rings</span></div></div>
+        <div class="item"><div class="row"><span class="name">Coleslaw</span></div></div>
+        <div class="item"><div class="row"><span class="name">Mashed Potatoes</span></div></div>
+        <div class="item"><div class="row"><span class="name">Daily Vegetable</span></div></div>
+        <div class="item"><div class="row"><span class="name">Side Salad</span></div></div>
+        <div class="item"><div class="row"><span class="name">Broiled Potato</span></div></div>
+        <div class="item"><div class="row"><span class="name">Potato &amp; Corn</span></div></div>
+      </div>
+      <div class="flavors" style="margin-top:18px"><b>Premium Sides &mdash; +$7</b></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Parmesan Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Cheddar Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Loaded Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Sweet Potato Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Old Bay Fries</span></div></div>
+        <div class="item"><div class="row"><span class="name">Mac &amp; Cheese</span></div></div>
+      </div>
+    </section>
+
+    <!-- DESSERT -->
+    <section class="section" id="dessert">
+      <div class="section-title"><h2>Dessert</h2></div>
+      <div class="items">
+        <div class="item"><div class="row"><span class="name">Tiramisu</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Chocolate Mousse</span><span class="price">$10</span></div></div>
+        <div class="item"><div class="row"><span class="name">Dubai Chocolate Cake</span><span class="price">$12</span></div></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <h2>Ready to Order?</h2>
+      <p>Order ahead for pickup or delivery and have it ready when you reach the shore.</p>
+      <a class="btn" href="https://bobsgrill.toast.site/order">Order Online</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.3rem">Bob's <span style="color:var(--red)">Seafood &amp; Grill</span></div>
+      <div class="star">&#9733; &#9733; &#9733;</div>
+      <div>1368 Boardwalk, Ocean City, NJ 08226 &middot; <a href="tel:+16093993438">(609) 399-3438</a></div>
+      <p class="fine">*Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness. Before placing your order, please inform your server of any allergy. Prices subject to change.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
