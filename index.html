@@ -8,6 +8,18 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bob's Seafood & Grill">
+<meta property="og:title" content="Bob's Seafood & Grill — Ocean City, NJ · Since 1928">
+<meta property="og:description" content="A boardwalk institution since 1928. Lobster, crab cakes, and the day's fresh catch — with a view of the Ocean City shore.">
+<meta property="og:image" content="https://bobseafood.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://bobseafood.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bob's Seafood & Grill — Ocean City, NJ · Since 1928">
+<meta name="twitter:description" content="A boardwalk institution since 1928. Lobster, crab cakes, and the day's fresh catch — with a view of the Ocean City shore.">
+<meta name="twitter:image" content="https://bobseafood.com/og-image.jpg">
 <meta name="description" content="Bob's Seafood & Grill in Ocean City, New Jersey. A boardwalk institution since 1928 — lobster, crab cakes, and the day's fresh catch. Order online.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,12 +125,9 @@
   a:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}.hero video{display:none}}
 
-  /* ---- MOBILE: reverse the reveal ----
-     On phones, show the HTML text first on the navy backdrop while the video
-     plays hidden (opacity 0) underneath. At 9.5s the video fades in. */
+  /* ---- MOBILE: vertical 9:16 video shows immediately, text over it ---- */
   @media (max-width:720px){
-    .hero video{opacity:0;transition:opacity 1.2s ease}
-    .hero.video-on video{opacity:1}
+    .hero video{opacity:1}                 /* video visible right away on phone */
     .hero-content{opacity:1;pointer-events:auto}
     .hero .overlay{opacity:1}
   }
@@ -147,7 +156,11 @@
   <header class="hero">
     <!-- Navy fallback sits BEHIND the video (z-index 0). Video sits above it (z-index 1). -->
     <div class="hero-fallback" aria-hidden="true"></div>
-    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg">
+    <!-- data-desktop = 16:9 commercial (has intro text). data-mobile = 9:16 vertical (no intro text).
+         Script below picks the right source by screen size. Paste your vertical URL into data-mobile. -->
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg"
+      data-desktop="https://2mlr6moqyuvlfqrp.public.blob.vercel-storage.com/Commercial.mp4"
+      data-mobile="PASTE_VERTICAL_9x16_URL_HERE">
       <source src="https://2mlr6moqyuvlfqrp.public.blob.vercel-storage.com/Commercial.mp4" type="video/mp4">
     </video>
     <div class="overlay" id="heroOverlay"></div>
@@ -260,29 +273,34 @@
       var content = document.getElementById('heroContent');
       var overlay = document.getElementById('heroOverlay');
       var isMobile = window.matchMedia('(max-width:720px)').matches;
-      var REVEAL_AT = isMobile ? 10.5 : 9.5; // mobile reveals video at 10.5s, desktop reveals text at 9.5s
-
       if(!v){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); return; }
       v.muted = true;
 
-      // DESKTOP: text hidden until 9.5s, then fades in over the video.
-      // MOBILE: text shown from 0; video hidden until 9.5s, then fades in.
       function showText(){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); }
       function hideText(){ content && content.classList.remove('revealed'); overlay && overlay.classList.remove('revealed'); }
-      function showVideo(){ hero && hero.classList.add('video-on'); }
-      function hideVideo(){ hero && hero.classList.remove('video-on'); }
 
-      v.addEventListener('timeupdate', function(){
-        if(v.currentTime >= REVEAL_AT){
-          if(isMobile){ showVideo(); }      // phone: reveal the video
-          else { showText(); }              // desktop: reveal the text
-        }
-      });
-      // on each loop back to start, reset to the "intro" state
-      v.addEventListener('seeked', function(){
-        if(v.currentTime < 0.5){ if(isMobile){ hideVideo(); } else { hideText(); } }
-      });
-      v.addEventListener('ended', function(){ if(isMobile){ hideVideo(); } else { hideText(); } });
+      // Pick the right video source for the device.
+      var mobileSrc = v.getAttribute('data-mobile');
+      var desktopSrc = v.getAttribute('data-desktop');
+      var chosen = (isMobile && mobileSrc && mobileSrc.indexOf('PASTE_') === -1) ? mobileSrc : desktopSrc;
+      var srcEl = v.querySelector('source');
+      if(srcEl && chosen && srcEl.getAttribute('src') !== chosen){
+        srcEl.setAttribute('src', chosen);
+        v.load();
+      }
+
+      // MOBILE: vertical video has NO intro text -> show the headline immediately over the video.
+      // DESKTOP: 16:9 video has baked-in intro text -> hide headline until 9.5s, then fade it in.
+      if(isMobile){
+        v.classList.add('mobile-mode');   // CSS shows video right away on mobile
+        showText();                        // text visible from the start
+      } else {
+        var REVEAL_AT = 9.5;
+        v.addEventListener('timeupdate', function(){ if(v.currentTime >= REVEAL_AT) showText(); });
+        v.addEventListener('seeked', function(){ if(v.currentTime < 0.5) hideText(); });
+        v.addEventListener('ended', hideText);
+        setTimeout(function(){ if(v.readyState < 2) showText(); }, 11000); // never leave hero blank
+      }
 
       var tryPlay = function(){
         var p = v.play();
@@ -291,13 +309,11 @@
       v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
       v.addEventListener('error', function(){
         console.error('Hero video FAILED. code=', v.error && v.error.code, '(4=codec/src unsupported)');
-        showText(); // never leave hero blank
+        showText();
       });
       tryPlay();
       document.addEventListener('touchstart', tryPlay, {once:true});
       document.addEventListener('click', tryPlay, {once:true});
-      // safety: if video never loads, on desktop reveal text so hero isn't blank
-      setTimeout(function(){ if(v.readyState < 2 && !isMobile) showText(); }, 11000);
     })();
   </script>
 
