@@ -30,6 +30,9 @@
   .nav-links a{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;
     font-size:.92rem;color:var(--cream);text-decoration:none;text-shadow:0 2px 8px rgba(0,0,0,.6);transition:color .2s}
   .nav-links a:hover{color:var(--gold)}
+  .nav-links a.order-cta{background:var(--red);color:var(--cream);padding:9px 20px;border-radius:30px;
+    border:2px solid var(--red);text-shadow:none;transition:background .2s,color .2s,transform .12s}
+  .nav-links a.order-cta:hover{background:var(--cream);color:var(--red-deep);border-color:var(--cream);transform:translateY(-1px)}
   .nav-toggle{display:none;background:none;border:0;color:var(--cream);font-size:1.6rem;cursor:pointer}
 
   /* ---- full-screen video hero ---- */
@@ -129,8 +132,9 @@
     <div class="logo">Bob's<span class="sf">Seafood &amp; Grill</span><span class="est">&mdash; Since 1928 &mdash;</span></div>
     <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">&#9776;</button>
     <div class="nav-links" id="navlinks">
+      <a href="index.html">Home</a>
       <a href="menu.html">Menu</a>
-      <a href="https://bobsgrill.toast.site/order">Order Now</a>
+      <a href="https://bobsgrill.toast.site/order" class="order-cta">Order Now</a>
       <a href="#faq">FAQ</a>
       <a href="#catering">Catering</a>
     </div>
