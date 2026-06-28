@@ -36,12 +36,9 @@
   .hero{position:relative;height:100vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
   .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
   .hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:linear-gradient(160deg,#24405f 0%,#16273f 60%,#0e1c2e 100%)}
-  .hero .overlay{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity 1.2s ease;
+  .hero .overlay{position:absolute;inset:0;z-index:1;
     background:linear-gradient(180deg,rgba(15,28,46,.55) 0%,rgba(15,28,46,.30) 40%,rgba(15,28,46,.65) 100%)}
-  .hero .overlay.revealed{opacity:1}
-  .hero-content{position:relative;z-index:2;color:var(--cream);padding:0 22px;
-    opacity:0;transition:opacity 1.2s ease;pointer-events:none}
-  .hero-content.revealed{opacity:1;pointer-events:auto}
+  .hero-content{position:relative;z-index:2;color:var(--cream);padding:0 22px}
   .hero .eyebrow{font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:.78rem;color:var(--gold);margin-bottom:18px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
   .hero h1{font-family:'Playfair Display',serif;font-weight:800;line-height:.98;font-size:clamp(2.8rem,8.5vw,6rem);text-shadow:0 4px 24px rgba(0,0,0,.55)}
   .hero .since{font-style:italic;font-size:1.15rem;margin:20px 0 6px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -56,15 +53,14 @@
   .sec-title{text-align:center;margin-bottom:36px}
   .sec-title h2{font-family:'Playfair Display',serif;font-weight:800;color:var(--navy);font-size:clamp(1.8rem,4vw,2.8rem);text-transform:uppercase}
   .sec-title .sub{font-style:italic;color:var(--red);margin-top:6px}
-  .plates{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
-  .plate{border:2px solid var(--navy);background:var(--cream-deep);padding:24px 22px;position:relative}
+  .plates{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;max-width:920px;margin:0 auto}
+  .plate{border:2px solid var(--navy);background:var(--cream-deep);padding:18px 16px 16px;position:relative}
   .plate::before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--cream);padding:0 9px;width:42px;height:24px;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9923f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='4' r='1.6'/><path d='M12 6v14'/><path d='M7 10h10'/><path d='M5 14a7 7 0 0 0 14 0'/><path d='M5 14l-2 1m18-1l-2 1'/></svg>");
-    background-repeat:no-repeat;background-position:center;background-size:22px 22px;background-color:var(--cream)}
-  .plate h3{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.22rem;margin-bottom:4px}
-  .plate .price{font-family:'Oswald',sans-serif;color:var(--red);font-size:1.15rem;float:right}
-  .plate p{font-size:.95rem;color:#42505f;clear:both}
-  .plate .hot{display:inline-block;background:var(--red);color:var(--cream);font-family:'Oswald',sans-serif;font-size:.62rem;letter-spacing:.08em;padding:2px 7px;border-radius:3px;margin-left:6px}
+    background-repeat:no-repeat;background-position:center;background-size:20px 20px;background-color:var(--cream)}
+  .plate h3{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.05rem;margin-bottom:4px;line-height:1.2}
+  .plate p{font-size:.85rem;color:#42505f;line-height:1.45}
+  .plate .hot{display:inline-block;background:var(--red);color:var(--cream);font-family:'Oswald',sans-serif;font-size:.55rem;letter-spacing:.08em;padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:middle}
   .menu-note{text-align:center;margin-top:30px;font-style:italic;color:#52606d}
   .menu-note a{color:var(--red);font-weight:500}
 
@@ -106,19 +102,6 @@
 
   a:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}.hero video{display:none}}
-
-  /* ---- MOBILE: reverse the reveal ----
-     Phone video is letterboxed badly + its baked-in text gets cropped,
-     so on phones we hide the video (opacity 0, still playing) and show the
-     HTML text first. At 9.5s the video fades in. */
-  @media (max-width:720px){
-    .hero video{opacity:0;transition:opacity 1.2s ease}
-    .hero.video-on video{opacity:1}
-    /* text + overlay visible immediately on phone */
-    .hero-content{opacity:1;pointer-events:auto}
-    .hero .overlay{opacity:1}
-    /* when video comes on, deepen overlay slightly handled by .revealed too */
-  }
   @media (max-width:720px){
     .nav{padding:16px 20px}
     .nav-links{position:absolute;top:100%;right:20px;flex-direction:column;gap:18px;background:var(--navy);padding:20px 26px;border:2px solid var(--gold);display:none}
@@ -133,7 +116,7 @@
     <div class="logo">Bob's<span class="sf">Seafood &amp; Grill</span><span class="est">&mdash; Since 1928 &mdash;</span></div>
     <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">&#9776;</button>
     <div class="nav-links" id="navlinks">
-      <a href="#menu">Menu</a>
+      <a href="menu.html">Menu</a>
       <a href="https://bobsgrill.toast.site/order">Order Now</a>
       <a href="#faq">FAQ</a>
       <a href="#catering">Catering</a>
@@ -160,14 +143,14 @@
     <div class="wrap">
       <div class="sec-title"><h2>From the Galley</h2><div class="sub">a few of the house favorites</div></div>
       <div class="plates">
-        <div class="plate"><h3>Lobster Tail <span class="price">$46</span></h3><p>A grilled lobster tail with drawn butter. Choice of two sides.</p></div>
-        <div class="plate"><h3>Jumbo Lump Crab Cake <span class="price">$38</span></h3><p>Two jumbo lump crab cakes, grilled to order. Choice of two sides.</p></div>
-        <div class="plate"><h3>The Captain's Platter <span class="price">$42</span></h3><p>A grand assortment of shrimp, flounder, scallops, and our crab cake.</p></div>
-        <div class="plate"><h3>New England Lobster Salad <span class="price">$21</span></h3><p>Our lobster salad over crisp romaine, finished with fresh scallions.</p></div>
-        <div class="plate"><h3>Butterfly Shrimp <span class="hot">HOT</span> <span class="price">$18</span></h3><p>Crispy butterfly shrimp wrap with lettuce, tomato, onion, and tartar. With fries.</p></div>
-        <div class="plate"><h3>Lobster Roll &mdash; Connecticut <span class="price">$26</span></h3><p>Warm lobster on a toasted split-top bun with drawn butter.</p></div>
+        <div class="plate"><h3>Lobster Tail</h3><p>A grilled lobster tail with drawn butter. Choice of two sides.</p></div>
+        <div class="plate"><h3>Jumbo Lump Crab Cake</h3><p>Two jumbo lump crab cakes, grilled to order. Choice of two sides.</p></div>
+        <div class="plate"><h3>The Captain's Platter</h3><p>A grand assortment of shrimp, flounder, scallops, and our crab cake.</p></div>
+        <div class="plate"><h3>New England Lobster Salad</h3><p>Our lobster salad over crisp romaine, finished with fresh scallions.</p></div>
+        <div class="plate"><h3>Butterfly Shrimp <span class="hot">HOT</span></h3><p>Crispy butterfly shrimp wrap with lettuce, tomato, onion, and tartar. With fries.</p></div>
+        <div class="plate"><h3>Lobster Roll &mdash; Connecticut</h3><p>Warm lobster on a toasted split-top bun with drawn butter.</p></div>
       </div>
-      <p class="menu-note">Soups, fried platters, steamed dinners, cheese-wheel pastas, feasts for the table &amp; more &mdash; <a href="https://bobsgrill.toast.site/order">see the full menu &amp; order online &rarr;</a></p>
+      <p class="menu-note">Soups, fried platters, steamed dinners, cheese-wheel pastas, feasts for the table &amp; more &mdash; <a href="menu.html">see our full menu &rarr;</a></p>
     </div>
   </section>
 
@@ -252,34 +235,8 @@
 
     (function(){
       var v = document.getElementById('heroVideo');
-      var hero = document.querySelector('.hero');
-      var content = document.getElementById('heroContent');
-      var overlay = document.getElementById('heroOverlay');
-      var REVEAL_AT = 9.5; // seconds — when your video's intro text clears
-      var isMobile = window.matchMedia('(max-width:720px)').matches;
-
-      if(!v){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); return; }
-      v.muted = true;
-
-      // DESKTOP: text hidden until 9.5s, then fades in over the video.
-      // MOBILE: text shown from 0; video hidden until 9.5s, then fades in.
-      function showText(){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); }
-      function hideText(){ content && content.classList.remove('revealed'); overlay && overlay.classList.remove('revealed'); }
-      function showVideo(){ hero && hero.classList.add('video-on'); }
-      function hideVideo(){ hero && hero.classList.remove('video-on'); }
-
-      v.addEventListener('timeupdate', function(){
-        if(v.currentTime >= REVEAL_AT){
-          if(isMobile){ showVideo(); }      // phone: reveal the video
-          else { showText(); }              // desktop: reveal the text
-        }
-      });
-      // on each loop back to start, reset to the "intro" state
-      v.addEventListener('seeked', function(){
-        if(v.currentTime < 0.5){ if(isMobile){ hideVideo(); } else { hideText(); } }
-      });
-      v.addEventListener('ended', function(){ if(isMobile){ hideVideo(); } else { hideText(); } });
-
+      if(!v) return;
+      v.muted = true; // required for autoplay
       var tryPlay = function(){
         var p = v.play();
         if(p && p.catch){ p.catch(function(err){ console.warn('Hero video play() blocked:', err); }); }
@@ -287,13 +244,10 @@
       v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
       v.addEventListener('error', function(){
         console.error('Hero video FAILED. code=', v.error && v.error.code, '(4=codec/src unsupported)');
-        showText(); // never leave hero blank
       });
       tryPlay();
       document.addEventListener('touchstart', tryPlay, {once:true});
       document.addEventListener('click', tryPlay, {once:true});
-      // safety: if video never loads, on desktop reveal text so hero isn't blank
-      setTimeout(function(){ if(v.readyState < 2 && !isMobile) showText(); }, 11000);
     })();
   </script>
 
