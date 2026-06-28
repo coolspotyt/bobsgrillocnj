@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bob's Seafood & Grill — Ocean City, NJ · Since 1928</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="description" content="Bob's Seafood & Grill in Ocean City, New Jersey. A boardwalk institution since 1928 — lobster, crab cakes, and the day's fresh catch. Order online.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -255,8 +259,8 @@
       var hero = document.querySelector('.hero');
       var content = document.getElementById('heroContent');
       var overlay = document.getElementById('heroOverlay');
-      var REVEAL_AT = 9.5; // seconds — when your video's intro text clears
       var isMobile = window.matchMedia('(max-width:720px)').matches;
+      var REVEAL_AT = isMobile ? 10.5 : 9.5; // mobile reveals video at 10.5s, desktop reveals text at 9.5s
 
       if(!v){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); return; }
       v.muted = true;
