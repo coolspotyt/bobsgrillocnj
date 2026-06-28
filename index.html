@@ -306,16 +306,17 @@
       }
 
       var tryPlay = function(){
+        if(!v.paused) return;             // already playing — don't call play() again
         var p = v.play();
         if(p && p.catch){ p.catch(function(err){ console.warn('Hero video play() blocked:', err); }); }
       };
       v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
       v.addEventListener('error', function(){
         console.error('Hero video FAILED. code=', v.error && v.error.code, '(4=codec/src unsupported)');
-        // On desktop, still respect the 9.5s delay (the setTimeout above handles reveal).
-        // On mobile, text is already shown. So do nothing extra here.
       });
       tryPlay();
+      // Fallback for browsers that block autoplay: try again on first interaction,
+      // but ONLY if the video is still paused (guarded inside tryPlay).
       document.addEventListener('touchstart', tryPlay, {once:true});
       document.addEventListener('click', tryPlay, {once:true});
     })();
