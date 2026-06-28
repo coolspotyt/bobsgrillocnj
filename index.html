@@ -36,9 +36,12 @@
   .hero{position:relative;height:100vh;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
   .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
   .hero .hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:linear-gradient(160deg,#24405f 0%,#16273f 60%,#0e1c2e 100%)}
-  .hero .overlay{position:absolute;inset:0;z-index:1;
+  .hero .overlay{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity 1.2s ease;
     background:linear-gradient(180deg,rgba(15,28,46,.55) 0%,rgba(15,28,46,.30) 40%,rgba(15,28,46,.65) 100%)}
-  .hero-content{position:relative;z-index:2;color:var(--cream);padding:0 22px}
+  .hero .overlay.revealed{opacity:1}
+  .hero-content{position:relative;z-index:2;color:var(--cream);padding:0 22px;
+    opacity:0;transition:opacity 1.2s ease;pointer-events:none}
+  .hero-content.revealed{opacity:1;pointer-events:auto}
   .hero .eyebrow{font-family:'Oswald',sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:.78rem;color:var(--gold);margin-bottom:18px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
   .hero h1{font-family:'Playfair Display',serif;font-weight:800;line-height:.98;font-size:clamp(2.8rem,8.5vw,6rem);text-shadow:0 4px 24px rgba(0,0,0,.55)}
   .hero .since{font-style:italic;font-size:1.15rem;margin:20px 0 6px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -102,6 +105,16 @@
 
   a:focus-visible,.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}.hero video{display:none}}
+
+  /* ---- MOBILE: reverse the reveal ----
+     On phones, show the HTML text first on the navy backdrop while the video
+     plays hidden (opacity 0) underneath. At 9.5s the video fades in. */
+  @media (max-width:720px){
+    .hero video{opacity:0;transition:opacity 1.2s ease}
+    .hero.video-on video{opacity:1}
+    .hero-content{opacity:1;pointer-events:auto}
+    .hero .overlay{opacity:1}
+  }
   @media (max-width:720px){
     .nav{padding:16px 20px}
     .nav-links{position:absolute;top:100%;right:20px;flex-direction:column;gap:18px;background:var(--navy);padding:20px 26px;border:2px solid var(--gold);display:none}
@@ -235,8 +248,34 @@
 
     (function(){
       var v = document.getElementById('heroVideo');
-      if(!v) return;
-      v.muted = true; // required for autoplay
+      var hero = document.querySelector('.hero');
+      var content = document.getElementById('heroContent');
+      var overlay = document.getElementById('heroOverlay');
+      var REVEAL_AT = 9.5; // seconds — when your video's intro text clears
+      var isMobile = window.matchMedia('(max-width:720px)').matches;
+
+      if(!v){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); return; }
+      v.muted = true;
+
+      // DESKTOP: text hidden until 9.5s, then fades in over the video.
+      // MOBILE: text shown from 0; video hidden until 9.5s, then fades in.
+      function showText(){ content && content.classList.add('revealed'); overlay && overlay.classList.add('revealed'); }
+      function hideText(){ content && content.classList.remove('revealed'); overlay && overlay.classList.remove('revealed'); }
+      function showVideo(){ hero && hero.classList.add('video-on'); }
+      function hideVideo(){ hero && hero.classList.remove('video-on'); }
+
+      v.addEventListener('timeupdate', function(){
+        if(v.currentTime >= REVEAL_AT){
+          if(isMobile){ showVideo(); }      // phone: reveal the video
+          else { showText(); }              // desktop: reveal the text
+        }
+      });
+      // on each loop back to start, reset to the "intro" state
+      v.addEventListener('seeked', function(){
+        if(v.currentTime < 0.5){ if(isMobile){ hideVideo(); } else { hideText(); } }
+      });
+      v.addEventListener('ended', function(){ if(isMobile){ hideVideo(); } else { hideText(); } });
+
       var tryPlay = function(){
         var p = v.play();
         if(p && p.catch){ p.catch(function(err){ console.warn('Hero video play() blocked:', err); }); }
@@ -244,10 +283,13 @@
       v.addEventListener('loadeddata', function(){ console.log('Hero video loaded OK'); tryPlay(); });
       v.addEventListener('error', function(){
         console.error('Hero video FAILED. code=', v.error && v.error.code, '(4=codec/src unsupported)');
+        showText(); // never leave hero blank
       });
       tryPlay();
       document.addEventListener('touchstart', tryPlay, {once:true});
       document.addEventListener('click', tryPlay, {once:true});
+      // safety: if video never loads, on desktop reveal text so hero isn't blank
+      setTimeout(function(){ if(v.readyState < 2 && !isMobile) showText(); }, 11000);
     })();
   </script>
 
