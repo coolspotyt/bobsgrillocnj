@@ -159,9 +159,9 @@
     <!-- data-desktop = 16:9 commercial (has intro text). data-mobile = 9:16 vertical (no intro text).
          Script below picks the right source by screen size. Paste your vertical URL into data-mobile. -->
     <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="hero-poster.jpg"
-      data-desktop="https://2mlr6moqyuvlfqrp.public.blob.vercel-storage.com/Commercial.mp4"
-      data-mobile="PASTE_VERTICAL_9x16_URL_HERE">
-      <source src="https://2mlr6moqyuvlfqrp.public.blob.vercel-storage.com/Commercial.mp4" type="video/mp4">
+      data-desktop="https://pub-a91cb74ccadd4e68b5a38e511f436032.r2.dev/Horizontal%20Videos%20Bob's%20Grill.mp4"
+      data-mobile="https://pub-a91cb74ccadd4e68b5a38e511f436032.r2.dev/Bobseafood.com.mp4">
+      <source src="https://pub-a91cb74ccadd4e68b5a38e511f436032.r2.dev/Horizontal%20Videos%20Bob's%20Grill.mp4" type="video/mp4">
     </video>
     <div class="overlay" id="heroOverlay"></div>
     <div class="hero-content" id="heroContent">
@@ -295,7 +295,7 @@
         v.classList.add('mobile-mode');   // CSS shows video right away on mobile
         showText();                        // text visible from the start
       } else {
-        var REVEAL_AT = 9.5;
+        var REVEAL_AT = 11;
         // Primary trigger: video playback time reaching 9.5s (stays in sync with the video).
         v.addEventListener('timeupdate', function(){ if(v.currentTime >= REVEAL_AT) showText(); });
         v.addEventListener('seeked', function(){ if(v.currentTime < 0.5) hideText(); });
